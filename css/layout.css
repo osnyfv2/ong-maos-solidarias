@@ -1,0 +1,80 @@
+/* =========================================================
+   Layout – CSS Grid de 12 colunas (mobile-first)
+   ========================================================= */
+/* Grid principal da página e grids internos das seções com vários cards */
+main,
+#missao,
+#projetos,
+#doacoes,
+form {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-colunas), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  grid-auto-flow: row dense;
+}
+
+/* Padrão (< 480px): todo filho ocupa as 12 colunas, em pilha */
+main > *,
+#missao > *,
+#projetos > *,
+#doacoes > *,
+form > * { grid-column: 1 / -1; min-width: 0; }
+
+/* 1) >= 480px – celulares grandes */
+@media (min-width: 480px) {
+  :root { --grid-gap: var(--espaco-4); }
+  #missao > article { grid-column: span 6; }
+  #missao > article:last-child { grid-column: 1 / -1; }
+}
+
+/* 2) >= 768px – tablets */
+@media (min-width: 768px) {
+  header { justify-content: space-between; }
+  #missao > article,
+  #missao > article:last-child { grid-column: span 4; }
+  #projetos > article,
+  #doacoes > article { grid-column: span 6; }
+  form > fieldset:nth-of-type(1),
+  form > fieldset:nth-of-type(2) { grid-column: span 6; }
+}
+
+/* 3) >= 1024px – notebooks: conteúdo em 8 colunas + barra lateral em 4 */
+@media (min-width: 1024px) {
+  :root { --largura-max: 1024px; }
+  main > section { grid-column: 1 / 9; }
+  main > aside {
+    grid-column: 9 / -1;
+    grid-row: 1 / span 3;
+    align-self: start;
+    position: sticky;
+    top: var(--espaco-3);
+    margin-top: 0;
+  }
+  main > #formulario { grid-column: 2 / 12; }
+  form > fieldset:nth-of-type(4),
+  form > fieldset:nth-of-type(5) { grid-column: span 6; }
+}
+
+/* 4) >= 1280px – desktops: projetos em 3 colunas */
+@media (min-width: 1280px) {
+  :root { --largura-max: 1200px; --grid-gap: var(--espaco-5); }
+  #projetos > article { grid-column: span 4; }
+  main > #formulario { grid-column: 3 / 11; }
+}
+
+/* 5) >= 1536px – telas panorâmicas: container mais largo e texto maior */
+@media (min-width: 1536px) {
+  :root { --largura-max: 1440px; --grid-gap: var(--espaco-6); }
+  html { font-size: 112.5%; }
+  main > section { grid-column: 1 / 10; }
+  main > aside { grid-column: 10 / -1; }
+}
+
+/* Ajustes finos */
+fieldset input[type="radio"] + label, fieldset input[type="checkbox"] + label { white-space: nowrap; }
+form > button { justify-self: start; }
+
+/* Páginas sem barra lateral: seções ocupam as 12 colunas */
+@media (min-width: 1024px) {
+  main:not(:has(> aside)) > section:not(#formulario) { grid-column: 1 / -1; }
+}
