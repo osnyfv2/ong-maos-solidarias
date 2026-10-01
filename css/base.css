@@ -98,4 +98,5 @@ footer {
 }
 .pular-conteudo:focus { top: var(--espaco-3); }
 main:focus, h1:focus { outline: none; }
+#app { min-height: 70vh; }   /* reserva espaço: o rodapé não "pula" quando a view é injetada (CLS) */
 code { font-size: 0.9em; background: var(--cor-neutra-300); padding: 0 var(--espaco-1); border-radius: 4px; }
