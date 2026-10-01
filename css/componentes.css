@@ -170,7 +170,6 @@ footer address { display: flex; flex-direction: column; gap: var(--espaco-1); }
   height: 100vh;
   padding: calc(var(--espaco-6) + var(--espaco-4)) var(--espaco-3) var(--espaco-4);
   background: var(--cor-branca);
-  box-shadow: -4px 0 16px rgb(31 41 55 / 0.2);
   overflow-y: auto;
   transform: translateX(100%);      /* escondida fora da tela */
   visibility: hidden;               /* fora da ordem de tabulação enquanto fechada */
@@ -179,6 +178,7 @@ footer address { display: flex; flex-direction: column; gap: var(--espaco-1); }
 .menu--aberto .menu__lista {
   transform: translateX(0);
   visibility: visible;
+  box-shadow: -4px 0 16px rgb(31 41 55 / 0.2);   /* sombra só com a gaveta aberta */
 }
 /* No celular o submenu aparece aberto e recuado dentro da gaveta */
 .submenu { padding-left: var(--espaco-3); border-left: 2px solid var(--cor-primaria-clara); margin-left: var(--espaco-3); }
