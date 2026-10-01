@@ -1,0 +1,614 @@
+/* =========================================================
+   Componentes – Flexbox (alinhamento interno)
+   ========================================================= */
+
+/* Cabeçalho: logo + título à esquerda, menu à direita */
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+}
+/* Marca (logo + nome) – link para o início */
+.marca {
+  flex: 1 1 12rem;
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  color: var(--cor-neutra-900);
+  text-decoration: none;
+}
+.marca picture { flex: 0 0 auto; display: flex; }
+.marca__nome { font-size: var(--texto-lg); font-weight: var(--peso-negrito); line-height: 1.2; }
+
+
+/* Cartões de projetos e de doação: coluna flexível, ação sempre no rodapé */
+#projetos > article,
+#doacoes > article,
+#missao > article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  background: var(--cor-branca);
+  border: 1px solid var(--cor-neutra-300);
+  border-radius: var(--raio-borda);
+  padding: var(--espaco-4);
+  box-shadow: 0 2px 6px rgb(31 41 55 / 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#projetos > article:hover,
+#doacoes > article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgb(31 41 55 / 0.14);
+}
+#projetos > article h3, #doacoes > article h3, #missao > article h3 { margin: 0; }
+#projetos > article figure { margin: 0; }
+#doacoes > article > p:last-child { margin-top: auto; }   /* empurra o botão para baixo */
+
+/* Botões e chamadas para ação */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-height: 44px;
+  padding: var(--espaco-2) var(--espaco-4);
+  background: var(--cor-primaria);
+  color: var(--cor-branca);
+  font-weight: var(--peso-negrito);
+  text-decoration: none;
+  border-radius: var(--espaco-1);
+}
+
+/* Opções de rádio e checkbox do formulário */
+.grupo-opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2) var(--espaco-4);
+  margin-top: var(--espaco-2);
+}
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: 44px;
+}
+.opcao label { margin: 0; white-space: nowrap; }
+.opcao input { width: 1.25rem; height: 1.25rem; accent-color: var(--cor-primaria); }
+
+/* Aceite dos termos: caixa alinhada à primeira linha do texto longo */
+.aceite {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-2);
+}
+.aceite input { flex: 0 0 auto; width: 1.25rem; height: 1.25rem; margin-top: 0.2rem; accent-color: var(--cor-primaria); }
+.aceite label { display: block; margin: 0; }
+
+/* Rodapé: blocos distribuídos nas extremidades, empilham no celular */
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espaco-2) var(--espaco-4);
+}
+footer p { margin: 0; }
+footer address { display: flex; flex-direction: column; gap: var(--espaco-1); }
+
+/* =========================================================
+   Menu de navegação – hambúrguer (mobile) e dropdown (desktop)
+   Nomenclatura BEM: .menu, .menu__lista, .menu__link, .menu--aberto
+   ========================================================= */
+.menu__lista,
+.submenu { list-style: none; margin: 0; padding: 0; }
+
+.menu__link,
+.submenu__link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;                 /* alvo de toque acessível */
+  padding: 0 var(--espaco-3);
+  color: var(--cor-primaria);
+  font-weight: var(--peso-negrito);
+  text-decoration: none;
+  border-radius: var(--espaco-1);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.menu__link:hover, .menu__link:focus-visible,
+.submenu__link:hover, .submenu__link:focus-visible {
+  background: var(--cor-primaria-clara);
+  color: var(--cor-primaria-escura);
+}
+.menu__link[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- Botão hambúrguer (três linhas desenhadas com ::before e ::after) ---------- */
+.menu__botao {
+  position: relative;
+  z-index: 30;                      /* fica acima da gaveta para virar o botão de fechar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: var(--cor-primaria);
+  border-radius: var(--espaco-1);
+}
+.menu__icone,
+.menu__icone::before,
+.menu__icone::after {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: var(--cor-branca);
+  border-radius: 2px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.menu__icone { position: relative; }
+.menu__icone::before,
+.menu__icone::after { content: ""; position: absolute; left: 0; }
+.menu__icone::before { top: -8px; }
+.menu__icone::after  { top: 8px; }
+
+/* Ícone vira um "X" quando o menu está aberto */
+.menu__botao[aria-expanded="true"] .menu__icone { background: transparent; }
+.menu__botao[aria-expanded="true"] .menu__icone::before { transform: translateY(8px) rotate(45deg); }
+.menu__botao[aria-expanded="true"] .menu__icone::after  { transform: translateY(-8px) rotate(-45deg); }
+
+/* ---------- Gaveta lateral (padrão, < 768px) ---------- */
+.menu__lista {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+  width: min(80vw, 300px);
+  height: 100vh;
+  padding: calc(var(--espaco-6) + var(--espaco-4)) var(--espaco-3) var(--espaco-4);
+  background: var(--cor-branca);
+  box-shadow: -4px 0 16px rgb(31 41 55 / 0.2);
+  overflow-y: auto;
+  transform: translateX(100%);      /* escondida fora da tela */
+  visibility: hidden;               /* fora da ordem de tabulação enquanto fechada */
+  transition: transform 0.3s ease, visibility 0.3s ease;
+}
+.menu--aberto .menu__lista {
+  transform: translateX(0);
+  visibility: visible;
+}
+/* No celular o submenu aparece aberto e recuado dentro da gaveta */
+.submenu { padding-left: var(--espaco-3); border-left: 2px solid var(--cor-primaria-clara); margin-left: var(--espaco-3); }
+.submenu__link { font-weight: var(--peso-normal); }
+
+/* ---------- Desktop (>= 768px): menu horizontal com dropdown ---------- */
+@media (min-width: 768px) {
+  .menu__botao { display: none; }
+
+  .menu__lista {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    overflow: visible;
+    transform: none;
+    visibility: visible;
+    transition: none;
+  }
+
+  .menu__item--submenu { position: relative; }
+  .menu__item--submenu > .menu__link::after {
+    content: "";
+    margin-left: var(--espaco-2);
+    border: 5px solid transparent;
+    border-top-color: currentColor;
+    transform: translateY(3px);
+  }
+
+  /* Submenu oculto por padrão: fora da tela e fora da tabulação */
+  .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    min-width: 220px;
+    margin: 0;
+    padding: var(--espaco-2);
+    border: 1px solid var(--cor-neutra-300);
+    border-radius: var(--raio-borda);
+    background: var(--cor-branca);
+    box-shadow: 0 8px 18px rgb(31 41 55 / 0.14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  }
+
+  /* Abre com o mouse (:hover) e com o teclado (:focus-within) */
+  .menu__item--submenu:hover > .submenu,
+  .menu__item--submenu:focus-within > .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* Respeita quem prefere menos animação */
+@media (prefers-reduced-motion: reduce) {
+  .menu__lista, .submenu, .menu__icone, .menu__icone::before, .menu__icone::after { transition: none; }
+}
+
+/* =========================================================
+   Estados interativos – botões
+   Ordem: padrão → hover → focus-visible → active → disabled
+   ========================================================= */
+button,
+.botao {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branca);
+  border: 2px solid transparent;
+  box-shadow: 0 2px 4px rgb(31 41 55 / 0.15);
+  transition:
+    background-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    transform var(--transicao-rapida);
+}
+
+/* Hover: fundo mais escuro, sombra maior e leve elevação */
+button:hover,
+.botao:hover {
+  background-color: var(--cor-primaria-escura);
+  color: var(--cor-branca);
+  box-shadow: 0 6px 14px rgb(154 52 18 / 0.35);
+  transform: translateY(-2px);
+}
+
+/* Foco pelo teclado: anel âmbar bem visível, independente da cor */
+button:focus-visible,
+.botao:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 3px;
+}
+
+/* Active (clique): o botão "afunda" */
+button:active,
+.botao:active {
+  background-color: var(--cor-primaria-escura);
+  box-shadow: inset 0 3px 6px rgb(0 0 0 / 0.25);
+  transform: translateY(1px);
+}
+
+/* Disabled: cinza, sem sombra, sem movimento e cursor bloqueado */
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+  background-color: var(--cor-desabilitado);
+  color: var(--cor-neutra-900);
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* O botão do menu hambúrguer não "sobe" no hover */
+.menu__botao:hover, .menu__botao:active { transform: none; }
+
+/* =========================================================
+   Estados interativos – campos do formulário
+   ========================================================= */
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea {
+  border-width: 2px;
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    background-color var(--transicao-rapida);
+}
+
+input:not([type="radio"]):not([type="checkbox"]):hover,
+select:hover,
+textarea:hover { border-color: var(--cor-neutra-900); }
+
+/* Foco: borda na cor primária + halo luminoso */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 4px rgb(245 158 11 / 0.45);
+}
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Sucesso: aria-invalid="false" é aplicado pelo JS depois que o usuário sai do campo */
+input:not([type="radio"]):not([type="checkbox"])[aria-invalid="false"],
+select[aria-invalid="false"],
+textarea[aria-invalid="false"] {
+  border-color: var(--cor-sucesso);
+  background-color: var(--cor-sucesso-clara);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2315803d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--espaco-3) center;
+  background-size: 1.1rem;
+  padding-right: calc(var(--espaco-3) * 2.5);
+}
+
+/* Erro: aria-invalid="true" – borda e fundo avermelhados + ícone de alerta (não depende só da cor) */
+input:not([type="radio"]):not([type="checkbox"])[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--cor-erro);
+  background-color: var(--cor-erro-clara);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b91c1c' stroke-width='3' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cline x1='12' y1='7' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12' y2='17'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--espaco-3) center;
+  background-size: 1.1rem;
+  padding-right: calc(var(--espaco-3) * 2.5);
+}
+
+/* O select já tem a seta nativa: mantém o ícone mais à esquerda */
+select[aria-invalid] { background-position: right calc(var(--espaco-3) * 2) center; }
+
+/* Label do campo com erro também muda (texto + cor) */
+label:has(+ input[aria-invalid="true"]),
+label:has(+ select[aria-invalid="true"]) { color: var(--cor-erro); font-weight: var(--peso-negrito); }
+
+/* Mensagem de ajuda que só aparece quando o campo está inválido */
+.campo-erro {
+  display: none;
+  margin: var(--espaco-1) 0 0;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-negrito);
+  color: var(--cor-erro);
+}
+.campo-erro:not(:empty) { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  button, .botao, input, select, textarea { transition: none; }
+  button:hover, .botao:hover, button:active, .botao:active { transform: none; }
+}
+
+/* =========================================================
+   Componentes de feedback: badges, alertas, toasts e modal
+   Variantes por modificador BEM: --info, --sucesso, --aviso, --erro
+   ========================================================= */
+
+/* ---------- Badges (etiquetas de categoria e status) ---------- */
+.badges { display: flex; flex-wrap: wrap; gap: var(--espaco-2); margin: 0; padding: 0; list-style: none; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  padding: 2px var(--espaco-2);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-negrito);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.badge--educacao    { color: #1d4ed8; background: #eff6ff; }
+.badge--alimentacao { color: var(--cor-primaria-escura); background: var(--cor-primaria-clara); }
+.badge--renda       { color: #6d28d9; background: #f5f3ff; }
+.badge--sucesso     { color: var(--cor-sucesso); background: var(--cor-sucesso-clara); }
+.badge--aviso       { color: var(--cor-aviso); background: var(--cor-aviso-clara); }
+.badge--erro        { color: var(--cor-erro); background: var(--cor-erro-clara); }
+.badge--info        { color: var(--cor-secundaria); background: var(--cor-info-clara); }
+.badge--sucesso::before { content: "●"; font-size: 0.6em; }   /* indicador de "ativo" */
+
+/* ---------- Alertas (mensagens fixas na página) ---------- */
+.alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-3);
+  margin: 0 0 var(--espaco-4);
+  padding: var(--espaco-3) var(--espaco-4);
+  border: 1px solid;
+  border-left-width: 6px;
+  border-radius: var(--raio-borda);
+  color: var(--cor-neutra-900);
+}
+.alerta__icone {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  color: var(--cor-branca);
+  font-weight: var(--peso-negrito);
+}
+.alerta__conteudo { flex: 1; }
+.alerta__titulo { display: block; margin-bottom: var(--espaco-1); }
+.alerta__conteudo p { margin: 0; }
+.alerta--info    { background: var(--cor-info-clara);    border-color: var(--cor-secundaria); }
+.alerta--sucesso { background: var(--cor-sucesso-clara); border-color: var(--cor-sucesso); }
+.alerta--aviso   { background: var(--cor-aviso-clara);   border-color: var(--cor-aviso); }
+.alerta--erro    { background: var(--cor-erro-clara);    border-color: var(--cor-erro); }
+.alerta--info    .alerta__icone { background: var(--cor-secundaria); }
+.alerta--sucesso .alerta__icone { background: var(--cor-sucesso); }
+.alerta--aviso   .alerta__icone { background: var(--cor-aviso); }
+.alerta--erro    .alerta__icone { background: var(--cor-erro); }
+
+/* ---------- Toasts (notificações temporárias, não bloqueiam a tela) ---------- */
+.toast-area {
+  position: fixed;
+  right: var(--espaco-3);
+  bottom: var(--espaco-3);
+  left: var(--espaco-3);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--espaco-2);
+  pointer-events: none;            /* não bloqueia cliques na página */
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  width: 100%;
+  max-width: 380px;
+  padding: var(--espaco-3) var(--espaco-4);
+  border-left: 6px solid;
+  border-radius: var(--raio-borda);
+  background: var(--cor-neutra-900);
+  color: var(--cor-branca);
+  box-shadow: 0 10px 24px rgb(31 41 55 / 0.3);
+  pointer-events: auto;
+  animation: toast-entrada 0.3s ease both;
+}
+.toast--saindo { animation: toast-saida 0.3s ease both; }
+.toast__texto { flex: 1; margin: 0; }
+.toast__fechar {
+  flex: 0 0 auto;
+  width: 32px; height: 32px; min-height: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--cor-branca);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.toast__fechar:hover { background: rgb(255 255 255 / 0.15); box-shadow: none; transform: none; }
+.toast--sucesso { border-color: #4ade80; }
+.toast--info    { border-color: #5eead4; }
+.toast--aviso   { border-color: var(--cor-destaque); }
+.toast--erro    { border-color: #f87171; }
+
+@keyframes toast-entrada { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes toast-saida   { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateX(24px); } }
+
+/* ---------- Modal (elemento nativo <dialog>) ---------- */
+.modal {
+  width: min(92vw, 560px);
+  max-height: 85vh;
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-borda);
+  background: var(--cor-branca);
+  color: var(--cor-neutra-900);
+  box-shadow: 0 20px 48px rgb(31 41 55 / 0.35);
+}
+.modal[open] { animation: modal-entrada 0.25s ease both; }
+.modal::backdrop { background: rgb(31 41 55 / 0.6); backdrop-filter: blur(2px); }
+.modal__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-bottom: 1px solid var(--cor-neutra-300);
+}
+.modal__titulo { margin: 0; font-size: var(--texto-md); color: var(--cor-neutra-900); }
+.modal__corpo { padding: var(--espaco-4); overflow-y: auto; }
+.modal__corpo p:last-child { margin-bottom: 0; }
+.modal__rodape {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--espaco-2);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-top: 1px solid var(--cor-neutra-300);
+  background: var(--cor-neutra-50);
+}
+.modal__fechar {
+  width: 40px; height: 40px; padding: 0;
+  background: transparent; color: var(--cor-neutra-900);
+  box-shadow: none; font-size: 1.5rem; line-height: 1;
+}
+.modal__fechar:hover, .modal__fechar:active { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); box-shadow: none; transform: none; }
+
+/* Botão secundário (contorno), usado no rodapé do modal */
+.botao--secundario { background: var(--cor-branca); color: var(--cor-primaria); border-color: var(--cor-primaria); box-shadow: none; }
+.botao--secundario:hover { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); box-shadow: none; }
+
+@keyframes modal-entrada { from { opacity: 0; transform: translateY(-12px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+/* Link com aparência de texto que abre modal */
+.link-modal { padding: 0; background: none; border: 0; box-shadow: none; color: var(--cor-primaria); font-weight: inherit; text-decoration: underline; min-height: 0; }
+.link-modal:hover, .link-modal:active { background: none; color: var(--cor-primaria-escura); box-shadow: none; transform: none; }
+
+/* Página de guia de componentes */
+.vitrine { display: flex; flex-wrap: wrap; gap: var(--espaco-3); align-items: center; margin-bottom: var(--espaco-4); }
+
+@media (prefers-reduced-motion: reduce) {
+  .toast, .toast--saindo, .modal[open] { animation: none; }
+}
+
+
+
+/* =========================================================
+   Componentes da SPA: filtros, painel (tabela), contador e ações
+   ========================================================= */
+.filtros { display: flex; flex-wrap: wrap; gap: var(--espaco-2); }
+.filtro {
+  min-height: 40px;
+  padding: var(--espaco-1) var(--espaco-3);
+  background: var(--cor-branca);
+  color: var(--cor-primaria);
+  border: 2px solid var(--cor-primaria);
+  border-radius: 999px;
+  box-shadow: none;
+}
+.filtro:hover { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); box-shadow: none; transform: none; }
+.filtro[aria-pressed="true"] { background: var(--cor-primaria); color: var(--cor-branca); }
+
+.contador {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  margin-left: var(--espaco-1);
+  padding: 0 var(--espaco-1);
+  border-radius: 999px;
+  background: var(--cor-sucesso);
+  color: var(--cor-branca);
+  font-size: var(--texto-xs);
+}
+
+.acoes-form { display: flex; flex-wrap: wrap; gap: var(--espaco-3); }
+.contador-texto { margin: var(--espaco-1) 0 0; font-size: var(--texto-xs); color: var(--cor-neutra-600); text-align: right; }
+.lista-erros { margin: var(--espaco-2) 0 0; padding-left: var(--espaco-4); }
+.lista-erros .link-modal { text-align: left; }
+
+.botao--perigo { background-color: var(--cor-erro); }
+.botao--perigo:hover { background-color: #991b1b; box-shadow: 0 6px 14px rgb(185 28 28 / 0.35); }
+.botao--pequeno { min-height: 36px; padding: var(--espaco-1) var(--espaco-3); font-size: var(--texto-xs); }
+
+.painel__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  margin-bottom: var(--espaco-3);
+}
+.painel__barra p { margin: 0; }
+
+.tabela-rolagem { overflow-x: auto; border: 1px solid var(--cor-neutra-300); border-radius: var(--raio-borda); background: var(--cor-branca); }
+.tabela { width: 100%; border-collapse: collapse; font-size: var(--texto-sm); }
+.tabela th, .tabela td { padding: var(--espaco-2) var(--espaco-3); text-align: left; border-bottom: 1px solid var(--cor-neutra-300); vertical-align: middle; }
+.tabela thead th { background: var(--cor-secundaria-clara); color: var(--cor-neutra-900); }
+.tabela tbody tr:hover { background: var(--cor-neutra-50); }
+.tabela tbody tr:last-child td { border-bottom: 0; }
+
+/* Celular: cada linha da tabela vira um cartão empilhado */
+@media (max-width: 767px) {
+  .tabela thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .tabela, .tabela tbody, .tabela tr, .tabela td { display: block; width: 100%; }
+  .tabela tr { padding: var(--espaco-2) 0; border-bottom: 1px solid var(--cor-neutra-300); }
+  .tabela td { display: flex; justify-content: space-between; gap: var(--espaco-3); border: 0; }
+  .tabela td::before { content: attr(data-rotulo); font-weight: var(--peso-negrito); color: var(--cor-neutra-600); }
+}
