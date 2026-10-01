@@ -612,3 +612,16 @@ label:has(+ select[aria-invalid="true"]) { color: var(--cor-erro); font-weight: 
   .tabela td { display: flex; justify-content: space-between; gap: var(--espaco-3); border: 0; }
   .tabela td::before { content: attr(data-rotulo); font-weight: var(--peso-negrito); color: var(--cor-neutra-600); }
 }
+
+/* Gráfico do painel (Chart.js) – altura fixa, largura responsiva */
+.grafico {
+  position: relative;
+  height: 260px;
+  margin: 0 0 var(--espaco-4);
+  padding: var(--espaco-3);
+  background: var(--cor-branca);
+  border: 1px solid var(--cor-neutra-300);
+  border-radius: var(--raio-borda);
+}
+.grafico canvas { width: 100% !important; height: calc(100% - 1.5rem) !important; }
+.grafico figcaption { text-align: center; }
