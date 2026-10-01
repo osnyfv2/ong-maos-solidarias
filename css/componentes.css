@@ -625,3 +625,33 @@ label:has(+ select[aria-invalid="true"]) { color: var(--cor-erro); font-weight: 
 }
 .grafico canvas { width: 100% !important; height: calc(100% - 1.5rem) !important; }
 .grafico figcaption { text-align: center; }
+
+/* Botão de alto contraste */
+.botao-contraste {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  min-height: 44px;
+  padding: var(--espaco-1) var(--espaco-3);
+  background: var(--cor-branca);
+  color: var(--cor-neutra-900);
+  border: 2px solid var(--cor-neutra-900);
+  border-radius: 999px;
+  box-shadow: none;
+  font-size: var(--texto-xs);
+  font-weight: var(--peso-negrito);
+}
+.botao-contraste:hover { background: var(--cor-neutra-900); color: var(--cor-branca); box-shadow: none; transform: none; }
+.botao-contraste[aria-pressed="true"] { background: var(--cor-primaria); color: var(--cor-branca); border-color: var(--cor-primaria); }
+
+/* Ajustes do alto contraste para cores fixas e links */
+[data-contraste="alto"] .badge { color: var(--cor-neutra-900); background: var(--cor-branca); border-color: var(--cor-neutra-900); }
+[data-contraste="alto"] a:not(.botao):not(.menu__link):not(.submenu__link):not(.marca) { color: var(--cor-primaria); text-decoration: underline; }
+[data-contraste="alto"] .toast { border: 2px solid var(--cor-branca); }
+[data-contraste="alto"] img { filter: contrast(1.1); }
+[data-contraste="alto"] .modal::backdrop { background: rgb(0 0 0 / 0.85); }
+@media (max-width: 479px) {
+  /* No celular pequeno o botão mostra só o ícone; o texto continua para leitores de tela */
+  .botao-contraste__texto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .botao-contraste { width: 44px; justify-content: center; padding: 0; font-size: var(--texto-md); }
+}

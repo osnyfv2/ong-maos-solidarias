@@ -23,6 +23,7 @@
   <script src="../js/modules/validacao.js" defer></script>
   <script src="../js/modules/feedback.js" defer></script>
   <script src="../js/modules/menu.js" defer></script>
+  <script src="../js/modules/acessibilidade.js" defer></script>
   <script src="../js/modules/formulario.js" defer></script>
   <script src="../js/modules/painel.js" defer></script>
   <script src="../js/modules/roteador.js" defer></script>
@@ -39,6 +40,9 @@
       </picture>
       <span class="marca__nome">Instituto Mãos Solidárias</span>
     </a>
+    <button type="button" class="botao-contraste" data-alternar-contraste aria-pressed="false">
+      <span aria-hidden="true">◐</span> <span class="botao-contraste__texto">Alto contraste</span>
+    </button>
     <nav class="menu" aria-label="Menu principal">
       <button class="menu__botao" type="button" aria-expanded="false" aria-controls="menu-lista" aria-label="Abrir menu">
         <span class="menu__icone" aria-hidden="true"></span>
