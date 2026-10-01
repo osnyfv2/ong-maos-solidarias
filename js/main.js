@@ -3,6 +3,7 @@
    Inicializa os módulos na ordem certa depois que o HTML carrega.
    ========================================================= */
 document.addEventListener('DOMContentLoaded', function () {
+  ONG.acessibilidade.iniciar();   // modo de alto contraste (antes de desenhar)
   ONG.feedback.iniciar();   // toasts e modais (delegação de eventos)
   ONG.menu.iniciar();       // menu hambúrguer
   ONG.painel.iniciar();     // ações da lista de cadastrados
