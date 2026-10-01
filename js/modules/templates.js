@@ -278,6 +278,10 @@ ONG.templates = (function () {
           <p><strong>${cadastros.length}</strong> ${cadastros.length === 1 ? 'cadastro salvo' : 'cadastros salvos'} neste navegador.</p>
           <button type="button" class="botao botao--secundario" data-abrir-modal="modal-limpar">Remover todos</button>
         </div>
+        <figure class="grafico">
+          <canvas id="grafico-participacao" role="img" aria-label="Gráfico de cadastros por forma de participação"></canvas>
+          <figcaption>Cadastros por forma de participação.</figcaption>
+        </figure>
         <div class="tabela-rolagem">
           <table class="tabela">
             <caption class="sr-only">Lista de voluntários e doadores cadastrados</caption>

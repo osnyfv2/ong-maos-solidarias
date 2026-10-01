@@ -14,7 +14,7 @@ ONG.roteador = (function () {
     '/inicio':      { titulo: 'Início',      view: function () { return ONG.templates.inicio(ONG.dados); } },
     '/projetos':    { titulo: 'Projetos',    view: function () { return ONG.templates.projetos(ONG.dados); }, aoMontar: iniciarFiltros },
     '/cadastro':    { titulo: 'Cadastro',    view: function () { return ONG.templates.cadastro(ONG.dados); }, aoMontar: function () { ONG.formulario.iniciar(); } },
-    '/painel':      { titulo: 'Cadastrados', view: function () { return ONG.templates.painel(ONG.armazenamento.listarCadastros(), ONG.dados); } },
+    '/painel':      { titulo: 'Cadastrados', view: function () { return ONG.templates.painel(ONG.armazenamento.listarCadastros(), ONG.dados); }, aoMontar: function () { ONG.painel.desenharGrafico(); } },
     '/componentes': { titulo: 'Guia de componentes', view: function () { return ONG.templates.componentes(); } }
   };
 
