@@ -10,3 +10,8 @@
 ## [1.0.1]
 ### Corrigido
 - Sombra do menu lateral aparecendo com o menu fechado no celular
+
+## [1.1.0]
+### Adicionado
+- Modo de alto contraste e auditoria WCAG 2.1 AA
+- Build minificado com esbuild e deploy automatico no GitHub Pages
