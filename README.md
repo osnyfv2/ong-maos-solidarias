@@ -30,12 +30,17 @@ Plataforma web de uma ONG fictícia de Caxias do Sul/RS, criada na disciplina **
 | Estilo | CSS3 (custom properties, Grid, Flexbox, media queries) |
 | Comportamento | JavaScript ES6+ (módulos IIFE, DOM, eventos, `localStorage`) |
 | Biblioteca | [Chart.js 4.5.1](https://www.chartjs.org/) (incluída em `js/vendor/`) |
+| Build | esbuild + html-minifier-terser (Node.js) |
+| Deploy | GitHub Actions + GitHub Pages |
 | Versionamento | Git + GitHub (GitFlow) |
 
 ## Estrutura de pastas
 
 ```
 ├── index.html              # redireciona para html/index.html
+├── build.mjs               # script de build de produção (gera dist/)
+├── package.json            # dependências de desenvolvimento e scripts npm
+├── .github/workflows/      # deploy automático no GitHub Pages
 ├── html/
 │   └── index.html          # "casca" da SPA (cabeçalho, menu, <main id="app">, rodapé)
 ├── css/
@@ -76,7 +81,41 @@ Não precisa instalar nada.
 - No VS Code, instale a extensão **Live Server**, clique com o botão direito em `index.html` e escolha *Open with Live Server*.
 
 **Opção 3: online**
-- Publicado com GitHub Pages: `https://osnyfv2.github.io/ong-maos-solidarias/`
+- https://osnyfv2.github.io/ong-maos-solidarias/
+
+## Build de produção
+
+O código-fonte fica legível em `html/`, `css/` e `js/`. Para publicar, um build gera a pasta `dist/` minificada.
+
+**Pré-requisito:** [Node.js](https://nodejs.org/) 18 ou superior.
+
+```bash
+npm install        # instala esbuild e html-minifier-terser
+npm run build      # gera dist/ (CSS, JS e HTML minificados)
+npm run preview    # serve a pasta dist/ localmente para teste
+```
+
+O que o build faz (`build.mjs`):
+- **CSS:** une `variaveis`, `base`, `layout` e `componentes` em `css/estilo.min.css` e minifica com esbuild.
+- **JS:** une os 12 módulos na ordem de dependência em `js/app.min.js` e minifica com esbuild.
+- **HTML:** troca os vários `<link>` e `<script>` pelos arquivos gerados e minifica com html-minifier-terser.
+- **Imagens:** são copiadas. As fotos estão em WebP (cerca de 60% menores que os JPG/PNG), com JPG/PNG como alternativa via `<picture>`, e as dos cards usam `loading="lazy"`.
+
+Resultado: cerca de 32% menos bytes em CSS, JS e HTML, e 16 requisições de CSS/JS próprios reduzidas a 2.
+
+## Deploy
+
+O deploy é automático pelo **GitHub Actions** (`.github/workflows/deploy.yml`): a cada push na `main`, o workflow roda `npm ci`, `npm run build` e publica a pasta `dist/` no GitHub Pages.
+
+Configuração (uma única vez): **Settings → Pages → Source: GitHub Actions**.
+
+Site publicado: https://osnyfv2.github.io/ong-maos-solidarias/
+
+## Testes
+
+- **Acessibilidade:** Lighthouse (100) e axe-core (0 violações WCAG 2.1 AA) em todas as páginas, com e sem alto contraste.
+- **Validação:** W3C Nu HTML Checker sem erros no HTML e no CSS.
+- **Funcionais:** navegação SPA, filtro, validação do formulário, rascunho, gravação e remoção no `localStorage`, testados no navegador.
 
 ## Como usar
 
