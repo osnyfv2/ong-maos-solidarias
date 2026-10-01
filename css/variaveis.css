@@ -59,3 +59,30 @@
   --grid-gap: var(--espaco-3);
 }
 
+
+/* =========================================================
+   Tema de alto contraste (WCAG 1.4.3 / 1.4.11)
+   Ativado pelo botão "Alto contraste" ou pela preferência
+   do sistema. Só redefine os tokens: todo o CSS se adapta.
+   ========================================================= */
+[data-contraste="alto"] {
+  --cor-primaria: #ffd400;
+  --cor-primaria-escura: #ffe866;
+  --cor-primaria-clara: #262000;
+  --cor-secundaria: #7fe7ff;
+  --cor-secundaria-clara: #002a33;
+  --cor-destaque: #00e5ff;
+  --cor-neutra-900: #ffffff;
+  --cor-neutra-600: #e6e6e6;
+  --cor-neutra-300: #ffffff;
+  --cor-neutra-50: #000000;
+  --cor-branca: #000000;
+  --cor-erro: #ff7b7b;
+  --cor-erro-clara: #2a0000;
+  --cor-sucesso: #5cff9d;
+  --cor-sucesso-clara: #002a12;
+  --cor-aviso: #ffd400;
+  --cor-aviso-clara: #262000;
+  --cor-info-clara: #002a33;
+  --cor-desabilitado: #8a8a8a;
+}
